@@ -33,6 +33,7 @@ GOTO :Main
 	GOTO:EOF
 
 :Main
+	PUSHD src
 	2>NUL WHERE MOONC>nul
 	IF %ERRORLEVEL% NEQ 0 (
 		ECHO.
@@ -51,18 +52,19 @@ GOTO :Main
 	ECHO.
 
 	IF "%ARG%"=="clean" (
-		::ECHO Deleting wm.lua
-		::DEL wm.lua
-		::ECHO Deleting modules\bar.lua
-		::DEL modules\bar.lua
-		::ECHO Deleting modules\layouts.lua
-		::DEL modules\layouts.lua
-		::ECHO Deleting modules\tile.lua
-		::DEL modules\tile.lua
+		ECHO Deleting wm.lua
+		DEL wm.lua
+		REM ECHO Deleting modules\bar.lua
+		REM DEL modules\bar.lua
+		REM ECHO Deleting modules\layouts.lua
+		REM DEL modules\layouts.lua
+		REM ECHO Deleting modules\tile.lua
+		REM DEL modules\tile.lua
 	) ELSE (
-		::MOONC wm.moon
-		::MOONC modules\bar.moon
-		::MOONC modules\layouts.moon
-		::MOONC modules\tile.moon
+		MOONC wm.moon
+		REM MOONC modules\bar.moon
+		REM MOONC modules\layouts.moon
+		REM MOONC modules\tile.moon
 	)
+	POPD
 	GOTO :EOF
