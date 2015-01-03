@@ -81,6 +81,29 @@ do
 	end
 end
 
-function ahk.print(str)
-	__ahk_print(str)
+do
+	local x,y,w,h
+
+	function __lua_gpos_callback(px,py,pw,ph)
+		x,y,w,h = px,py,pw,ph
+	end
+
+	function ahk.getpos(id)
+		__ahk_getpos(id)
+		return x,y,w,h
+	end
+end
+
+do
+	local min,max
+
+	function __lua_gmm_callback(n)
+		min = n == "-1"
+		max = n == "1"
+	end
+
+	function ahk.getminmax(id)
+		__ahk_getminmax(id)
+		return min,max
+	end
 end

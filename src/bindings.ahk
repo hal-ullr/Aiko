@@ -67,7 +67,19 @@ __ahk_getpos(L)
 	lua_call(L, 4, 0)
 }
 
-__ahk_print(L)
+__ahk_getminmax(L)
+{
+	n := lua_gettop(L)
+	this_id := lua_tostring(L, n)
+	WinGet, state, MinMax, ahk_id %this_id%
+	lua_getglobal(L, "__lua_gmm_callback")
+	lua_pushstring(L, state)
+	lua_call(L, 1, 0)
+}
+
+
+
+print(L)
 {
 	n := lua_gettop(L)
 	str := lua_tostring(L, n)
@@ -82,4 +94,5 @@ lua_register(L, "__ahk_gettitle", RegisterCallback("__ahk_gettitle","C"))
 lua_register(L, "__ahk_getclass", RegisterCallback("__ahk_getclass","C"))
 lua_register(L, "__ahk_getprocessname", RegisterCallback("__ahk_getprocessname","C"))
 lua_register(L, "__ahk_getpos", RegisterCallback("__ahk_getpos","C"))
-lua_register(L, "__ahk_print", RegisterCallback("__ahk_print","C"))
+lua_register(L, "__ahk_getminmax", RegisterCallback("__ahk_getminmax","C"))
+lua_register(L, "print", RegisterCallback("print","C"))
