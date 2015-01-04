@@ -1,4 +1,4 @@
-config = {
+return {
 	borders = {
 		--  This is for bbLeanSkin/TrueTransparency(?) users.
 --[[	top = 23,
@@ -20,5 +20,8 @@ config = {
 	},
 	favor = {
 		"chrome.exe:Chrome_WidgetWin_1"
+	},
+	tiles = {
+		"left"
 	}
 }

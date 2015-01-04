@@ -1,6 +1,19 @@
-require "src/config"
-require "src/lib"
+require("src/lib")
 
-local windows = exclude(getwindows(),config.exclude)
+local tile = require("src/tiles/left")
+local config = require("src/config")
 
-dumpwindows(windows)
+
+
+local area = ahk.deskarea()
+
+local windowstotile = getwindows()
+
+windowstotile = excludeClasses(windowstotile,config.exclude)
+windowstotile = excludeIDs(windowstotile,minimized(windowstotile))
+
+dumpwindows(windowstotile)
+
+local tiler = tile.newscheme(area,length(windowstotile),config)
+
+tiler:tile(windowstotile)

@@ -17,6 +17,10 @@ function getwindows()
 	return windows
 end
 
+function ID(window)
+	return table.concat({window.pname,window.class},":")
+end
+
 function dumpwindows(windows)
 	for id,window in pairs(windows) do
 		print(id..":")
@@ -35,11 +39,37 @@ function contains(arr,val)
 	end
 end
 
-function exclude(arr,arr2)
+function excludeClasses(arr,arr2)
 	for key,val in pairs(arr) do
-		if contains(arr2,("%s:%s"):format(val.pname,val.class)) then
+		if contains(arr2,ID(val)) then
 			arr[key] = nil
 		end
 	end
 	return arr
+end
+
+function excludeIDs(arr,arr2)
+	for _,key in pairs(arr2) do
+		arr[key] = nil
+	end
+	return arr
+end
+
+
+function length(arr)
+	i = 0
+	for _,_ in pairs(arr) do
+		i = i + 1
+	end
+	return i
+end
+
+function minimized(windows)
+	local ids = {}
+	for id,window in pairs(windows) do
+		if window.minmax == "-1" then
+			table.insert(ids,id)
+		end
+	end
+	return ids
 end

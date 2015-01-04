@@ -52,8 +52,8 @@ GOTO :Main
 	ECHO.
 
 	IF "%ARG%"=="clean" (
-		ECHO Deleting wm.lua
-		DEL wm.lua
+		REM ECHO Deleting wm.lua
+		REM DEL wm.lua
 		REM ECHO Deleting modules\bar.lua
 		REM DEL modules\bar.lua
 		REM ECHO Deleting modules\layouts.lua
@@ -61,7 +61,7 @@ GOTO :Main
 		REM ECHO Deleting modules\tile.lua
 		REM DEL modules\tile.lua
 	) ELSE (
-		MOONC wm.moon
+		REM MOONC wm.moon
 		REM MOONC modules\bar.moon
 		REM MOONC modules\layouts.moon
 		REM MOONC modules\tile.moon

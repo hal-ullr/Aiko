@@ -1,3 +1,4 @@
+
 __ahk_winlist(L)
 {
 	WinGet, id, list
@@ -21,6 +22,16 @@ __ahk_getwindowborders(L)
 	Return, 3
 }
 
+__ahk_getarea(L)
+{
+	SysGet, Area, MonitorWorkArea
+	lua_pushnumber(L, AreaTop)
+	lua_pushnumber(L, AreaBottom)
+	lua_pushnumber(L, AreaLeft)
+	lua_pushnumber(L, AreaRight)
+	Return, 4
+}
+
 
 
 __ahk_print(L)
@@ -34,4 +45,5 @@ __ahk_print(L)
 
 lua_register(L, "__ahk_winlist", RegisterCallback("__ahk_winlist","C"))
 lua_register(L, "__ahk_getwindowborders", RegisterCallback("__ahk_getwindowborders","C"))
+lua_register(L, "__ahk_getarea", RegisterCallback("__ahk_getarea","C"))
 lua_register(L, "__ahk_print", RegisterCallback("__ahk_print","C"))

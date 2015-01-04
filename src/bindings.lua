@@ -1,3 +1,9 @@
+function print(...)
+	__ahk_print(table.concat({...},"\009"))
+end
+
+
+
 ahk = {}
 
 do
@@ -23,8 +29,12 @@ ahk.id = function(str)
 	return "ahk_id "..str
 end
 
-
-
-function print(...)
-	__ahk_print(table.concat({...},"\009"))
+ahk.deskarea = function()
+	top,bottom,left,right = __ahk_getarea()
+	return {
+		x = left,
+		y = top,
+		w = right-left,
+		h = bottom-top
+	}
 end
