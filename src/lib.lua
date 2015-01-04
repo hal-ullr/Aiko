@@ -1,24 +1,38 @@
+function print(...)
+	local args = {...}
+	
+	for k,v in pairs(args) do
+		args[k] = tostring(v) or "NaS"
+	end
+
+	__ahk_print(table.concat(args,"\009"))
+end
+
+function ahkID(str)
+	return "ahk_id "..str
+end
+
+function ID(window)
+	return table.concat({window.pname,window.class},":")
+end
+
 function getwindows()
 	local windows = {}
 
 	for _,window in pairs(ahk.winlist()) do
-		local x,y,w,h = WinGetPos(ahk.id(window))
+		local x,y,w,h = WinGetPos(ahkID(window))
 
 		windows[window] = {
-			pname = WinGet("ProcessName",ahk.id(window)),
-			class = WinGetClass(ahk.id(window)),
+			pname = WinGet("ProcessName",ahkID(window)),
+			class = WinGetClass(ahkID(window)),
 			title = WinGetTitle(window),
 			position = ("%s,%s"):format(x,y),
-			minmax = WinGet("MinMax",ahk.id(window)),
+			minmax = WinGet("MinMax",ahkID(window)),
 			size = ("%s,%s"):format(w,h)
 		}
 	end
 
 	return windows
-end
-
-function ID(window)
-	return table.concat({window.pname,window.class},":")
 end
 
 function dumpwindows(windows)

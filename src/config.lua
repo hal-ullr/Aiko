@@ -1,4 +1,4 @@
-return {
+config = {
 	borders = {
 		--  This is for bbLeanSkin/TrueTransparency(?) users.
 --[[	top = 23,

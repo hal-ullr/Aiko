@@ -1,9 +1,3 @@
-function print(...)
-	__ahk_print(table.concat({...},"\009"))
-end
-
-
-
 ahk = {}
 
 do
@@ -23,10 +17,6 @@ end
 ahk.getwindowborders = function()
 	x,y,h = __ahk_getwindowborders()
 	return {top = y+h,bottom=y,left=x,right=x}
-end
-
-ahk.id = function(str)
-	return "ahk_id "..str
 end
 
 ahk.deskarea = function()
