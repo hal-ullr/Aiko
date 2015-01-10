@@ -18,11 +18,26 @@ function tile.newscheme(area,n)
 	})
 
 	local winh = math.floor((h - (n * p)) / (n - 1))
-	local winy = 3 -- ((h - (n * p)) / (n - 1)) * (i - 1) + (p * i)
+	local winy = p -- ((h - (n * p)) / (n - 1)) * (i - 1) + (p * i)
 
 	-- The number of windows required to be a pixel taller
 	-- than the average to fill the screen
 	
+	-- bbLean
+	local borders = ahk.getwindowborders()
+	local cborders = config.borders
+	local mborders = {left = 0, right = 0, top = 0, bottom = 0}
+
+	if not compare(borders,cborders) and cborders.top then
+		local l,r = borders.left - cborders.left, borders.right - cborders.right
+		local t,b = borders.top - cborders.top, borders.bottom - cborders.bottom
+		print(l,r,t,b)
+		mborders.left,mborders.right = l,r
+		mborders.top,mborders.bottom = t,b
+	end
+
+	tile.mborders = mborders
+
 	local lwins = h - (winh * (n - 1) + p*n)
 
 	for i = 1,n-1 do
@@ -34,7 +49,7 @@ function tile.newscheme(area,n)
 			-- Currently the windows that need to be a pixel larger go at the top
 		}
 
-		winy = winy + winspace.h + 3
+		winy = winy + winspace.h + p
 
 		table.insert(tile.winspaces,winspace)
 	end
@@ -45,7 +60,7 @@ function tile.newscheme(area,n)
 
 		for _,window in pairs(config.favor) do
 			for rkey,rwindow in pairs(windows) do
-				if ID(rwindow) == window then
+				if winmatch(rwindow,window) then
 					table.insert(order,rkey)
 				end
 			end
@@ -59,6 +74,22 @@ function tile.newscheme(area,n)
 
 		for key,winspace in pairs(tile.winspaces) do
 			x,y,w,h = winspace.x,winspace.y,winspace.w,winspace.h
+			-- Account for bbLean
+
+			for _,id in pairs(config.borderexclusions) do
+				local classch = ID(windows[order[key]]) == id
+				local namech = windows[order[key]].pname == id
+				if not (namech or classch) then
+					local l,r = tile.mborders.left,tile.mborders.right
+					local t,b = tile.mborders.top,tile.mborders.bottom
+					print(t+b)
+					y = y - t
+					x = x - l
+					h = h + (t + b)
+					w = w + (l + r)
+				end
+			end
+
 			WinMove(ahkID(order[key]),_,x,y,w,h)
 		end
 	end

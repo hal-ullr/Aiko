@@ -12,8 +12,28 @@ function ahkID(str)
 	return "ahk_id "..str
 end
 
+function compare(arr1,arr2)
+	local keys = {}
+	for key,_ in pairs(arr1) do table.insert(keys,key) end
+	for key,_ in pairs(arr2) do table.insert(keys,key) end
+	for _,key in pairs(keys) do
+		if not (arr1[key] == arr2[key]) then
+			return false
+		end
+	end
+	return true
+end
+
 function ID(window)
 	return table.concat({window.pname,window.class},":")
+end
+
+function winmatch(cwindow,window)
+	return (
+		table.concat({cwindow.pname,cwindow.class},":") == window
+	) or (
+		cwindow.pname == window
+	)
 end
 
 function getwindows()
@@ -51,11 +71,12 @@ function contains(arr,val)
 			return true
 		end
 	end
+	return false
 end
 
 function excludeClasses(arr,arr2)
 	for key,val in pairs(arr) do
-		if contains(arr2,ID(val)) then
+		if contains(arr2,ID(val)) or contains(arr2,val.pname) then
 			arr[key] = nil
 		end
 	end
